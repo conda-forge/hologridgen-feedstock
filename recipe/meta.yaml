@@ -7,20 +7,20 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/hologridgen-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/hologridgen-{{ version }}.tar.gz
   sha256: 025476a0dc827da21b5df4a329dc0375c736a7e98b0628eb7faf1401e8890934
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
-    - python >=3.5
+    - python {{ python_min }}
     - pip
   run:
-    - python >=3.5
+    - python >={{ python_min }}
     - geopandas >=0.8.1
     - holoviews >=1.13.5
     - panel >=0.10.0
@@ -29,6 +29,8 @@ requirements:
     - geoviews
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - hologridgen
   # Cannot use pip check b/c pip does not recognize pygridgen 0.2.dev0 as >= 0.2 :-/
